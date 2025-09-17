@@ -43,3 +43,7 @@ But for now it looks like we need a simple correction factor around 1.1 for the 
 
 
 I'll update this when we come to a conclusion, build any revised models or get more measurements and I'll happily take your input and suggestions.
+
+Improved radomized version in V5 review code.
+
+![Radomized](https://github.com/user-attachments/assets/b62736ff-8284-4283-ae60-809a776fde5f)
