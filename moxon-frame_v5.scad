@@ -13,8 +13,8 @@ c= 6.2;  // NotUsed
 d= 23.9;
 e= 46.1;
 
-dia= 1.6;         // wire diameter (+ some tolerance for 3D-printing,.1 maybe)
-CoupFactor= 1.09;  //enlongment factor due to plastic encapsulation
+dia= 1.7;         // wire diameter (+ some tolerance for 3D-printing,.1 maybe)
+CoupFactor= 1.09; //enlongment factor due to plastic encapsulation
 
 A=a/CoupFactor;
 B=b/CoupFactor;
@@ -23,23 +23,24 @@ D=d/CoupFactor;
 E=e*CoupFactor;
 
 frame        = 5;		  // frame width
-thickness    = 3.0;	  // frame thickness
-thicknessUp  = 2.0;	  // frame thickness
-cover        = 1.5;    // radome thikness
+thickness    = 3.2;	  // frame thickness
+thicknessUp  = 2.4;	  // frame thickness
+cover        = 0.8;    // radome thikness
 corner_radius= 3;
-wire_depth   = dia/3;  // where the wire channel gets placed
-wire_depthUp = -dia/3;	// where the wire channel gets shield placed
+wire_depth   = 3/4*dia-(dia/2);  // where the wire channel gets placed
+wire_depthUp = 1/4*dia-(dia/2);	 // where the wire channel gets shield placed
+fin          = 0.8;
 
 handle_length= 60;
-coax_diam    = 3.5;
-connector= "screw";			// "sma" (2-hole sma jack),"bnc" (4-hole jack),"screw" or none
+coax_diam    = 3.3;
+connector= "screw";	 // "sma"(2-hole sma jack),"bnc" (4-hole jack),"screw" or none
 screw_dia= 4.4;
 
-freq= "896";				// only used for text generation
+freq= "869";				// only used for text generation
 tsize= 6;
 font="Core Sans D 55 Bold";
 
-$fn=100;
+$fn=50;
 
 // modules
 
@@ -92,22 +93,22 @@ difference() {
 	union() {
 		// outer roundtangle
 		rcube([A+frame,E+frame,thickness],corner_radius,true,false);
-    // palpebra
+    // fin
     difference() {
-      rcube([A+frame+1,E+frame+1,thickness+thicknessUp],corner_radius,true,false);
-      rcube([A+frame-1,E+frame-1,thickness+thicknessUp],corner_radius,true,false);
+      rcube([A+frame+fin,E+frame+fin,thickness+thicknessUp],corner_radius,true,false);
+      rcube([A+frame-fin,E+frame-fin,thickness+thicknessUp],corner_radius,true,false);
     }
-    // left wing palpebra
+    // left wing fin
     translate(v=[-((A/2+frame)/2),0,0])
     difference() {
-      rcube([(A/2-frame*2),E-frame,thickness+thicknessUp],corner_radius,true,false);
-      rcube([(A/2-frame*2-1),E-frame-1,thickness+thicknessUp],corner_radius,true,false);
+      rcube([A/2-frame*2,E-frame,thickness+thicknessUp],corner_radius,true,false);
+      rcube([A/2-frame*2-2*fin,E-frame-2*fin,thickness+thicknessUp],corner_radius,true,false);
     }
-    // rigth wing palpebra
+    // rigth wing fin
     translate(v=[(A/2+frame)/2,0,0])
     difference() {
       rcube([A/2-frame*2,E-frame,thickness+thicknessUp],corner_radius,true,false);
-      rcube([A/2-frame*2-1,E-frame-1,thickness+thicknessUp],corner_radius,true,false);    
+      rcube([A/2-frame*2-2*fin,E-frame-2*fin,thickness+thicknessUp],corner_radius,true,false);    
     }
     
 		// handle
@@ -145,11 +146,11 @@ difference() {
 
 	// left wing cutout
 	translate(v=[-((A/2+frame)/2),0,0])
-		rcube([A/2-frame*2-1,E-frame-1,thickness],corner_radius,true,false);
+		rcube([A/2-frame*2-2*fin,E-frame-2*fin,thickness],corner_radius,true,false);
 
 	// right wing cutout
 	translate(v=[(A/2+frame)/2,0,0])
-		rcube([A/2-frame*2-1,E-frame-1,thickness],corner_radius,true,false);
+		rcube([A/2-frame*2-2*fin,E-frame-2*fin,thickness],corner_radius,true,false);
 
 	// big notch
 	translate(v=[0,E/2-6,+cover])
@@ -184,15 +185,17 @@ difference() {
 		linear_extrude(0.6)
 			text(freq,size=tsize,font=font,halign="center");
   
-// Coax hole in palpebra
-translate(v=[0,-E/2-frame/2-2,thickness+coax_diam/2+wire_depth+wire_depthUp])
+// Coax hole in fin
+translate(v=[0,-E/2-frame/2-2,thickness+thicknessUp+coax_diam/2+wire_depth+wire_depthUp])
 rotate(a=[-acos((thicknessUp+coax_diam/2-wire_depth)/(E+frame) ),0,0])
 cylinder(h=E+frame,r1=coax_diam/2,r2=coax_diam/5,center=false);  
 }
 
 
 
-// Frame 
+// Frame B
+// color("red",1.0)
+// translate(v=[0,-(E+20),thickness])
 rotate([0,180,0])
 translate(v=[0,0,-thicknessUp])
 difference (){  
@@ -201,7 +204,7 @@ difference (){
     difference() {
     
       // outer roundtangle
-      rcube([A+frame,E+frame,thicknessUp],corner_radius,true,false);
+      rcube([A+frame-fin-0.2 ,E+frame-fin-0.2 ,thicknessUp],          corner_radius,true,false);
   
       // wire channels
         // left short leg
@@ -233,11 +236,11 @@ difference (){
       
       // left wing cutout
       translate(v=[-((A/2+frame)/2),0,0])
-        rcube([(A/2-frame*2),E-frame,thicknessUp],corner_radius,true,false);
+        rcube([(A/2-frame*2+0.2),E-frame+0.2,thicknessUp],corner_radius,true,false);
       
       // right wing cutout
       translate(v=[(A/2+frame)/2,0,0])
-        rcube([(A/2-frame*2),E-frame,thicknessUp],corner_radius,true,false);
+        rcube([(A/2-frame*2+0.2),E-frame+0.2,thicknessUp],corner_radius,true,false);
       
       // big notch
       translate(v=[0,E/2-6,+cover])
@@ -261,17 +264,16 @@ difference (){
 
     // coax tube
     difference (){
-    translate(v=[0,E/2-frame/2 +20,0])
+    translate(v=[0,E/2-frame/2 -fin/2 + 20,0])
     rotate(a=[-90,0,0])
-    cylinder(h=E,r1=coax_diam+2,r2=0.4,center=false);
+    cylinder(h=E+fin,r1=coax_diam+2,r2=0.4,center=false);
     
-    translate(v=[0-21/2,E/2-frame/2+20,0])
-    cube([21,E+frame,21],false);
+    translate(v=[0-21/2,E/2-frame/2+15,0])
+    cube([21,E+frame+fin,21],false);
     }
   }
   
-translate(v=[0,E/2-frame+20,frame/2-thicknessUp-coax_diam/2+wire_depthUp])
-rotate(a=[-acos((thicknessUp+coax_diam/2-wire_depthUp)/(E+frame) ),0,0])
-cylinder(h=E+frame,r1=coax_diam/2,r2=coax_diam/5,center=false); 
-  
+translate(v = [0, E/2-frame+20,frame/2-thicknessUp-coax_diam/2+wire_depthUp])
+rotate(a=[-acos((thicknessUp+coax_diam/2-wire_depthUp)/(E + frame) ),0,0])
+cylinder(h = E + frame, r1 = coax_diam/2, r2 = coax_diam/5, center = false);
 }
