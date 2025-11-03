@@ -47,3 +47,13 @@ I'll update this when we come to a conclusion, build any revised models or get m
 Improved radomized version in V5 review code.
 
 ![Radomized](https://github.com/user-attachments/assets/b62736ff-8284-4283-ae60-809a776fde5f)
+
+Any image of moxon antenna installed on Mestastic Device working at 869.525MHz
+
+![IMG_0594](https://github.com/user-attachments/assets/1f7ccf6e-fe58-44b4-8244-bc0f3b7778ba)
+
+The red tape visible in the photos has been left on while the glue takes effect. The half-shells are glued together to prevent water and moisture from entering the copper and coaxial cable, which would alter their operating characteristics.
+
+![IMG_0592](https://github.com/user-attachments/assets/34605129-50da-48a9-b06d-e3395a86492e)
+
+![IMG_0593](https://github.com/user-attachments/assets/a43e460b-0b48-496d-9694-4d255aa0e8a7)
