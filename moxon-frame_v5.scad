@@ -25,10 +25,10 @@ E=e*CoupFactor;
 frame        = 5;		  // frame width
 thickness    = 3.2;	  // frame thickness
 thicknessUp  = 2.4;	  // frame thickness
-cover        = 0.8;    // radome thikness
+cover        = 0.8;   // radome thikness
 corner_radius= 3;
 wire_depth   = 3/4*dia-(dia/2);  // where the wire channel gets placed
-wire_depthUp = 1/4*dia-(dia/2);	 // where the wire channel gets shield placed
+wire_depthUp = 1.2/4*dia-(dia/2);	 // where the wire channel gets shield placed
 fin          = 0.8;
 
 handle_length= 60;
@@ -266,14 +266,15 @@ difference (){
     difference (){
     translate(v=[0,E/2-frame/2 -fin/2 + 20,0])
     rotate(a=[-90,0,0])
-    cylinder(h=E+fin,r1=coax_diam+2,r2=0.4,center=false);
+    cylinder(h=E+fin,r1=coax_diam+3,r2=0.4,center=false);
     
     translate(v=[0-21/2,E/2-frame/2+15,0])
     cube([21,E+frame+fin,21],false);
     }
   }
   
-translate(v = [0, E/2-frame+20,frame/2-thicknessUp-coax_diam/2+wire_depthUp])
-rotate(a=[-acos((thicknessUp+coax_diam/2-wire_depthUp)/(E + frame) ),0,0])
+translate(v = [0, E/2-frame+18,frame/2-thicknessUp-coax_diam/2+wire_depthUp-wire_depth])
+rotate(a=[-acos((thicknessUp+coax_diam/2-wire_depthUp)/(E+frame) ),0,0])
 cylinder(h = E + frame, r1 = coax_diam/2, r2 = coax_diam/5, center = false);
 }
+
